@@ -29,6 +29,12 @@ const actions = {
 	async deleteTodo({ commit }, id) {
 		await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
 		commit ('removeTodo', id)
+	},
+
+	//Takes as parameter the number (value) of todos the user wants to display from the FilterTodos Component
+	async filterTodos({ commit }, value) {
+		const response = await axios.get(`https://jsonplaceholder.typicode.com/todos?_limit=${value}`);
+		commit ('filterTodos', response.data)
 	}
 }
 
@@ -39,7 +45,9 @@ const mutations = {
 
 	newTodo: (state, todo) => state.todos.unshift(todo),
 
-	removeTodo: (state, id) => state.todos = state.todos.filter(todo => todo.id !== id)
+	removeTodo: (state, id) => state.todos = state.todos.filter(todo => todo.id !== id),
+
+	filterTodos: (state, todos) => (state.todos = todos)
 } 
 
 export default {
@@ -48,3 +56,6 @@ export default {
     actions,
     mutations
 }
+
+
+//39min30 in the video 
